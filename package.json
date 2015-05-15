@@ -1,0 +1,14 @@
+{
+  "name": "DiceRoll.rauks.org",
+  "description": "Dice Roller for Rauks.org",
+  "author": "Thibaut CONSTANT",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "4.x.x"
+      
+  },
+"engines": {
+    "node": "0.x.x",
+    "npm": "2.x.x"
+  }
+}
