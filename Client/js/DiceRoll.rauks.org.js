@@ -13,18 +13,24 @@ myShakeEvent.start();
 
 // register a shake event
 DiceRoll.directive('shakeIt', function($window) {
+  var timer;
   return {
     link: function(scope) {
       //to test
       // scope.$broadcast('shakeIt::shake');
       angular.element($window).on('shake', function(e) {
+        scope.$broadcast('shakeIt::shaking');
 
-        scope.$broadcast('shakeIt::shake');
+        clearInterval(timer);
+        timer = setInterval(function() {
+          scope.$broadcast('shakeIt::shaked');
+          clearInterval(timer);
+        }, 500);
+
       });
     }
   };
 });
-
 
 DiceRoll.directive('myDirective', function() {
   function randomIntFromInterval(min, max) {
@@ -33,7 +39,11 @@ DiceRoll.directive('myDirective', function() {
   return {
     link: function(scope, element) {
       element.children().attr("hide", "true");
-      scope.$on('shakeIt::shake', function() {
+      scope.$on('shakeIt::shaking', function() {
+        element.children().attr("hide", "true");
+      });
+      
+      scope.$on('shakeIt::shaked', function() {
         element.children().attr("hide", "true");
         element.children().eq(randomIntFromInterval(0, element.children().length) - 1).removeAttr("hide");
 
@@ -41,15 +51,3 @@ DiceRoll.directive('myDirective', function() {
     }
   };
 });
-
-
-// // register a shake event
-// window.addEventListener('shake', shakeEventDidOccur, false);
-// //shake event callback
-// function shakeEventDidOccur(timer) {
-//   clearInterval(timer);
-//   timer = setInterval(function() {
-//     alert('Shake!');
-//     clearInterval(timer);
-//   }, 500);
-// }
