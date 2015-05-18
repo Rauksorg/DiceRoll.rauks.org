@@ -7,14 +7,14 @@ var compression = require('compression'),
 
 app.use(compression());
 
-app.use(express.static(__dirname +'/Client'));
+app.use(express.static(__dirname + '/client'));
 
 // To activate caching
-// app.use(express.static('Client', { maxAge: oneYear }));
+// app.use(express.static('client', { maxAge: oneYear }));
 
 // Catch all route
-// app.use(function(req, res){
-//       res.sendFile(__dirname + '/Client/index.html');
-//   });
-   
+app.use(function(req, res) {
+    res.sendFile(__dirname + '/client/index.html');
+});
+
 app.listen(process.env.PORT, process.env.IP);

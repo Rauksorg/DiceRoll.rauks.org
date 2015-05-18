@@ -2,24 +2,23 @@
 
 var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages'])
 
-// Activate the Html5 route mode without#
-// DiceRoll.config(function($locationProvider) {
-//   $locationProvider.html5Mode(true);
-// });
+DiceRoll.config(function($locationProvider) {
+  $locationProvider.html5Mode(true).hashPrefix('!');
+});
 
 // Define routes
 DiceRoll.config(function($routeProvider) {
   $routeProvider
     .when('/', {
+      templateUrl: '/views/choosedice.html'
+    })
+    .when('/blue', {
       templateUrl: '/views/bluedice.html'
     })
-       .when('/blue', {
-      templateUrl: '/views/bluedice.html'
-    })
-       .when('/orange', {
+    .when('/orange', {
       templateUrl: '/views/orangedice.html'
     })
-       .when('/red', {
+    .when('/red', {
       templateUrl: '/views/reddice.html'
     })
     .otherwise({
