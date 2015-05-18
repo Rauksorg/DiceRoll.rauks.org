@@ -18,8 +18,14 @@ img {
 .bluedice {
     background: #5676b9;
 }
+.orangedice {
+    background: #d4843f;
+}
+.reddice {
+    background: #bf362b;
+}
 .circle {
-    /*padding-top must be equal to height*/
+    /*padding-top must be equal to width*/
     
     border-style: solid;
     border-color: white white white white;
@@ -32,24 +38,21 @@ img {
     color: white!important;
     width: 100px;
     height: 100px;
+}
+.shakeicon svg {
     -webkit-transform: rotate(20deg);
     -moz-transform: rotate(20deg);
     -ms-transform: rotate(20deg);
     -o-transform: rotate(20deg);
     transform: rotate(20deg);
-    
-    
     -webkit-animation-name: cssshake;
     -webkit-animation-duration: 400ms;
     -webkit-animation-iteration-count: 10;
     -webkit-animation-timing-function: linear;
-    
     -moz-animation-name: cssshake;
     -moz-animation-duration: 400ms;
     -moz-animation-iteration-count: 10;
     -moz-animation-timing-function: linear;
-    
-    
     animation-name: cssshake;
     animation-duration: 400ms;
     animation-iteration-count: 10;
@@ -72,7 +75,6 @@ img {
         -webkit-transform: rotate(20deg) translateX(0px);
     }
 }
-
 @-moz-keyframes cssshake {
     0% {
         -moz-transform: rotate(20deg) translateX(0px)
@@ -90,7 +92,6 @@ img {
         -moz-transform: rotate(20deg) translateX(0px);
     }
 }
-
 @keyframes cssshake {
     0% {
         transform: rotate(20deg) translateX(0px)

@@ -1,6 +1,31 @@
 "use strict";
 
-var DiceRoll = angular.module('DiceRoll', ['ngMaterial', 'ngMessages']);
+var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages'])
+
+// Activate the Html5 route mode without#
+DiceRoll.config(function($locationProvider) {
+  $locationProvider.html5Mode(true);
+});
+
+// Define routes
+DiceRoll.config(function($routeProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: '/views/bluedice.html'
+    })
+       .when('/blue', {
+      templateUrl: '/views/bluedice.html'
+    })
+       .when('/orange', {
+      templateUrl: '/views/orangedice.html'
+    })
+       .when('/red', {
+      templateUrl: '/views/reddice.html'
+    })
+    .otherwise({
+      redirectTo: '/'
+    });
+});
 
 // New shake
 var myShakeEvent = new Shake({
@@ -28,37 +53,38 @@ DiceRoll.directive('shakeIt', function($window) {
           scope.$broadcast('shakeIt::shaked');
           clearInterval(timer);
         }, 500);
-
       });
     }
   };
 });
 
+
 DiceRoll.directive('myRandomshow', function() {
   //Seed for Math.seedrandom
-  var enthropygen=0;
+  var enthropygen = 0;
   // Show a random tag from child tags
   function randomIntFromInterval(min, max) {
+    Math.seedrandom(enthropygen, {
+      entropy: true
+    });
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
   return {
     link: function(scope, element) {
-      // initialy hide everything
-      element.children().attr("hide", "true");
-      //Show Shaking Icon
-      element.children().eq("0").removeAttr("hide");
+      // Ensure everything is initialy hidden
+      element.children().attr('hide', 'true');
+      //Show Shake Icon
+      element.children().eq('0').removeAttr('hide');
       scope.$on('shakeIt::shaking', function() {
         enthropygen++;
-        // Hide everything while shaking
-        element.children().attr("hide", "true");
-        // Show circle while shaking
-        element.children().eq("1").removeAttr("hide");
+        // Show only circle while shaking
+        element.children().attr('hide', 'true');
+        element.children().eq('1').removeAttr('hide');
       });
       scope.$on('shakeIt::shaked', function() {
         // Show result
-        element.children().attr("hide", "true");
-        Math.seedrandom(enthropygen, { entropy: true });
-        element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr("hide");
+        element.children().attr('hide', 'true');
+        element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr('hide');
       });
     }
   };
