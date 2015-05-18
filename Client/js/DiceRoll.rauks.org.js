@@ -3,9 +3,9 @@
 var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages'])
 
 // Activate the Html5 route mode without#
-DiceRoll.config(function($locationProvider) {
-  $locationProvider.html5Mode(true);
-});
+// DiceRoll.config(function($locationProvider) {
+//   $locationProvider.html5Mode(true);
+// });
 
 // Define routes
 DiceRoll.config(function($routeProvider) {
