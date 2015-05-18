@@ -24,6 +24,10 @@ img {
 .reddice {
     background: #bf362b;
 }
+.darkdice {
+    background: #545453;
+}
+
 .circle {
     /*padding-top must be equal to width*/
     

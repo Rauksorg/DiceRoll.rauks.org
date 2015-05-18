@@ -1,6 +1,21 @@
-<div layout="column" layout-align="center center" ng-cloak class="fullscreen bluedice" onmousedown="return false">
 
-<a href="/blue">blue</a>
-<a href="/orange">orange</a>
-<a href="/red">red</a>
+<div layout="row" style="height:50%;" onmousedown="return false">
+    
+    <div class="bluedice" layout layou-align="center center" flex>
+        <md-button style="color: white;" href="/blue" layout-fill></md-button>
+    </div>
+
+    <div class="orangedice" layout layou-align="center center" flex>
+        <md-button style="color: white;" href="/orange" layout-fill></md-button>
+    </div>
+</div>
+
+<div layout="row" style="height:50%;" onmousedown="return false">
+    <div class="reddice" layout layou-align="center center" flex >
+        <md-button style="color: white;" href="/red" layout-fill></md-button>
+    </div>
+
+    <div class="darkdice" layout layou-align="center center" flex>
+        <md-button style="color: white;" href="/dark" layout-fill></md-button>
+    </div>
 </div>

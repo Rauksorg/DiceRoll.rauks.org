@@ -21,6 +21,9 @@ DiceRoll.config(function($routeProvider) {
     .when('/red', {
       templateUrl: '/views/reddice.html'
     })
+     .when('/dark', {
+      templateUrl: '/views/darkdice.html'
+    })
     .otherwise({
       redirectTo: '/'
     });
