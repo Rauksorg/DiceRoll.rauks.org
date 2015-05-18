@@ -4,7 +4,8 @@
   "author": "Thibaut CONSTANT",
   "version": "0.0.1",
   "dependencies": {
-    "express": "4.x.x"
+    "express": "4.x.x",
+    "compression":"1.X.X"
       
   },
 "engines": {
