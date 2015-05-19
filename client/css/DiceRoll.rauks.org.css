@@ -113,3 +113,11 @@ img {
         transform: rotate(20deg) translateX(0px);
     }
 }
+
+.backbutton{
+    position: fixed;
+    top:5px;
+}
+.backbutton md-icon{
+    color:white!important;
+}
