@@ -1,6 +1,6 @@
 "use strict";
 
-var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages'])
+var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages','ngAnimate'])
 
 DiceRoll.config(function($locationProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
@@ -21,7 +21,7 @@ DiceRoll.config(function($routeProvider) {
     .when('/red', {
       templateUrl: '/views/reddice.html'
     })
-     .when('/darknumber', {
+    .when('/darknumber', {
       templateUrl: '/views/darknumberdice.html'
     })
     .when('/dark', {
@@ -66,12 +66,11 @@ DiceRoll.directive('shakeIt', function($window) {
 
 DiceRoll.directive('myRandomshow', function() {
   //Seed for Math.seedrandom
-  var enthropygen = 0;
+  Math.seedrandom();
+  var enthropygen = Math.random();
   // Show a random tag from child tags
   function randomIntFromInterval(min, max) {
-    Math.seedrandom(enthropygen, {
-      entropy: true
-    });
+
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
   return {
@@ -82,10 +81,10 @@ DiceRoll.directive('myRandomshow', function() {
       element.children().eq('0').removeAttr('hide');
       scope.$on('shakeIt::shaking', function() {
         enthropygen++;
-        
+
         // For test :
         // console.log(enthropygen);
-        
+
         // Show only circle while shaking
         element.children().attr('hide', 'true');
         element.children().eq('1').removeAttr('hide');
@@ -93,11 +92,14 @@ DiceRoll.directive('myRandomshow', function() {
       scope.$on('shakeIt::shaked', function() {
         // Show result
         element.children().attr('hide', 'true');
+        Math.seedrandom(enthropygen, {
+          entropy: true
+        });
         element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr('hide');
-        
+
         // For test :
         // alert(enthropygen);
-        
+
       });
     }
   };
@@ -105,26 +107,26 @@ DiceRoll.directive('myRandomshow', function() {
 
 
 DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
-     // store the interval promise in this variable
-    var promise;
-    // starts the interval
-    $scope.startroll = function() {
-      // stops any running interval to avoid two intervals running at the same time
-      $scope.stoproll(); 
-      // store the interval promise
-      promise = $interval(DesktopRolling, 10);
-    };
-    // stops the interval
-    $scope.stoproll = function() {
-      $interval.cancel(promise);
-    };
-    // stops the interval when the scope is destroyed
-    $scope.$on('$destroy', function() {
-      $scope.stoproll();
-    });
-    //Rolling Function Desktop Fallback
-    var DesktopRolling= function() {
-      $scope.$broadcast('shakeIt::shaking');
-};
-  
+  // store the interval promise in this variable
+  var promise;
+  // starts the interval
+  $scope.startroll = function() {
+    // stops any running interval to avoid two intervals running at the same time
+    $scope.stoproll();
+    // store the interval promise
+    promise = $interval(DesktopRolling, 10);
+  };
+  // stops the interval
+  $scope.stoproll = function() {
+    $interval.cancel(promise);
+  };
+  // stops the interval when the scope is destroyed
+  $scope.$on('$destroy', function() {
+    $scope.stoproll();
   });
+  //Rolling Function Desktop Fallback
+  var DesktopRolling = function() {
+    $scope.$broadcast('shakeIt::shaking');
+  };
+
+});

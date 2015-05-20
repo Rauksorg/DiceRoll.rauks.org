@@ -27,7 +27,6 @@ img {
 .darkdice {
     background: #545453;
 }
-
 .circle {
     /*padding-top must be equal to width*/
     
@@ -113,31 +112,66 @@ img {
         transform: rotate(20deg) translateX(0px);
     }
 }
-
-.backbutton{
+.backbutton {
     z-index: 10;
     position: fixed;
-    top:5px;
+    top: 5px;
 }
-.backbutton md-icon{
-    color:white!important;
+.backbutton md-icon {
+    color: white!important;
 }
-
 .GridListBtn {
-    height:100%!important;
+    height: 100%!important;
     color: white;
 }
-
-.GridListBtn md-icon{
+.GridListBtn md-icon {
     padding-top: 7%;
-    height:90%;
-    width:80%;
+    height: 90%;
+    width: 80%;
+}
+.GridListBtn span {
+    font-size: 400%;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    margin-left: -15px;
 }
 
-.GridListBtn span{
-    font-size: 400%;
-    position:absolute; 
-    top:50%;
-   margin-top: -20px;
-   margin-left: -15px;
+/*Add page transition*/
+.at-view-fade-in.ng-enter {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+}
+
+.at-view-fade-in.ng-enter-active {
+    opacity: 1;
+}
+
+.at-view-fade-out.ng-leave {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 1;
+}
+
+.at-view-fade-out.ng-leave-active {
+    opacity: 0;
 }
