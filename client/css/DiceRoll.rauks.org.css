@@ -115,6 +115,7 @@ img {
 }
 
 .backbutton{
+    z-index: 10;
     position: fixed;
     top:5px;
 }
@@ -122,8 +123,21 @@ img {
     color:white!important;
 }
 
-.GridListBtnIcon{
+.GridListBtn {
+    height:100%!important;
+    color: white;
+}
+
+.GridListBtn md-icon{
     padding-top: 7%;
     height:90%;
     width:80%;
+}
+
+.GridListBtn span{
+    font-size: 400%;
+    position:absolute; 
+    top:50%;
+   margin-top: -20px;
+   margin-left: -15px;
 }

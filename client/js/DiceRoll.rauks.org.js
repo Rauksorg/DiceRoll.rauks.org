@@ -21,11 +21,14 @@ DiceRoll.config(function($routeProvider) {
     .when('/red', {
       templateUrl: '/views/reddice.html'
     })
+     .when('/darknumber', {
+      templateUrl: '/views/darknumberdice.html'
+    })
     .when('/dark', {
       templateUrl: '/views/darkdice.html'
     })
-    .when('/2dark', {
-      templateUrl: '/views/2darkdice.html'
+    .when('/dark2', {
+      templateUrl: '/views/darkdice2.html'
     })
     .otherwise({
       redirectTo: '/'
