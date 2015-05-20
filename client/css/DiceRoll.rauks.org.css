@@ -121,3 +121,8 @@ img {
 .backbutton md-icon{
     color:white!important;
 }
+
+.GridListBtnIcon{
+    height:100%;
+    width:100%;
+}
