@@ -62,8 +62,6 @@ DiceRoll.directive('shakeIt', function($window) {
   };
 });
 
-
-
 DiceRoll.directive('myRandomshow', function() {
   //Seed for Math.seedrandom
   Math.seedrandom();
@@ -75,15 +73,15 @@ DiceRoll.directive('myRandomshow', function() {
   }
   return {
     link: function(scope, element) {
-      // Ensure everything is initialy hidden
-      element.children().attr('hide', 'true');
-      //Show Shake Icon
-      element.children().eq('0').removeAttr('hide');
+        // Ensure everything is initialy hidden
+        element.children().attr('hide', 'true');
+        //Show Shake Icon
+        element.children().eq('0').removeAttr('hide');
+        
       scope.$on('shakeIt::shaking', function() {
         enthropygen++;
 
-        // For test :
-        // console.log(enthropygen);
+     
 
         // Show only circle while shaking
         element.children().attr('hide', 'true');
@@ -91,15 +89,14 @@ DiceRoll.directive('myRandomshow', function() {
       });
       scope.$on('shakeIt::shaked', function() {
         // Show result
+        enthropygen++;
         element.children().attr('hide', 'true');
         Math.seedrandom(enthropygen, {
           entropy: true
         });
+           // For test :
+        console.log(enthropygen);
         element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr('hide');
-
-        // For test :
-        // alert(enthropygen);
-
       });
     }
   };
@@ -123,6 +120,7 @@ DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
   // stops the interval when the scope is destroyed
   $scope.$on('$destroy', function() {
     $scope.stoproll();
+
   });
   //Rolling Function Desktop Fallback
   var DesktopRolling = function() {
@@ -152,11 +150,11 @@ DiceRoll.config(function($mdIconProvider) {
   })
   .run(function($http, $templateCache) {
     var urls = [
-       '/img/3Dblue.svg',
+      '/img/3Dblue.svg',
       '/img/3Dorange.svg',
       '/img/3Dred.svg',
       '/img/3Ddark.svg',
-      
+
       '/img/ic_vibration_48px.svg',
       '/img/ic_arrow_back_48px.svg',
 

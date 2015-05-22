@@ -1,5 +1,5 @@
 <div ng-include="'/views/partials/backbutton.html'"></div>
-<div layout="column" layout-align="center center" ng-cloak my-randomshow class="fullscreen bluedice" onmousedown="return false" ng-controller="DiceRollCtrl" ng-mousedown="startroll();" ng-mouseup="stoproll();$broadcast('shakeIt::shaked')">
+<div layout="column" layout-align="center center" ng-cloak my-randomshow class="fullscreen bluedice" onmousedown="return false" >
     <md-icon md-svg-icon="icon:shake" alt="Shake" class="shakeicon"></md-icon>
     <div hide class="circle"></div>
     <md-icon md-svg-icon="dice:efail" class="diceicon" alt="Epic fail"></md-icon>
@@ -9,3 +9,5 @@
     <md-icon md-svg-icon="dice:three" class="diceicon" alt="Three"></md-icon>
     <md-icon md-svg-icon="dice:two" class="diceicon" alt="Two"></md-icon>
 </div>
+
+<!--ng-mousedown="startroll();" ng-mouseup="stoproll();$broadcast('shakeIt::shaked')"-->
