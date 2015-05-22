@@ -1,5 +1,7 @@
 "use strict";
 
+console.log(isMobile.any)
+
 var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAnimate'])
 
 DiceRoll.config(function($locationProvider) {
@@ -73,15 +75,15 @@ DiceRoll.directive('myRandomshow', function() {
   }
   return {
     link: function(scope, element) {
-        // Ensure everything is initialy hidden
-        element.children().attr('hide', 'true');
-        //Show Shake Icon
-        element.children().eq('0').removeAttr('hide');
-        
+      // Ensure everything is initialy hidden
+      element.children().attr('hide', 'true');
+      //Show Shake Icon
+      element.children().eq('0').removeAttr('hide');
+
       scope.$on('shakeIt::shaking', function() {
         enthropygen++;
 
-     
+
 
         // Show only circle while shaking
         element.children().attr('hide', 'true');
@@ -94,7 +96,7 @@ DiceRoll.directive('myRandomshow', function() {
         Math.seedrandom(enthropygen, {
           entropy: true
         });
-           // For test :
+        // For test :
         console.log(enthropygen);
         element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr('hide');
       });
@@ -104,6 +106,25 @@ DiceRoll.directive('myRandomshow', function() {
 
 
 DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
+
+// Desktop Mouse down fallback
+  $scope.desktopmdown = function() {
+    // prevent from execution on mobile (display bug)
+    if (!isMobile.any) {
+      console.log("desktop dows");
+      $scope.startroll();
+    }
+  };
+  // Desktop Mouse up fallback
+  $scope.desktopmup = function() {
+     // prevent from execution on mobile (display bug)
+    if (!isMobile.any) {
+      $scope.stoproll();
+      $scope.$broadcast('shakeIt::shaked');
+    }
+  };
+
+
   // store the interval promise in this variable
   var promise;
   // starts the interval
