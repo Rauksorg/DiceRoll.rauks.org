@@ -95,7 +95,8 @@ DiceRoll.directive('myRandomshow', function() {
           entropy: true
         });
         // For test :
-        console.log(enthropygen);
+        // console.log(enthropygen);
+        
         element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr('hide');
       });
     }
@@ -109,7 +110,6 @@ DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
   $scope.desktopmdown = function() {
     // prevent from execution on mobile (display bug)
     if (!isMobile.any) {
-      console.log("desktop dows");
       $scope.startroll();
     }
   };
