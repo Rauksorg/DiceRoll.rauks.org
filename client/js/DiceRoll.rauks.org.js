@@ -1,7 +1,5 @@
 "use strict";
 
-console.log(isMobile.any)
-
 var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAnimate'])
 
 DiceRoll.config(function($locationProvider) {
