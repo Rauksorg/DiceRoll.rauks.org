@@ -1,6 +1,6 @@
 "use strict";
 
-var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages','ngAnimate'])
+var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAnimate'])
 
 DiceRoll.config(function($locationProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
@@ -130,3 +130,50 @@ DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
   };
 
 });
+
+DiceRoll.config(function($mdIconProvider) {
+    // Register icon IDs with sources. Future $mdIcon( <id> ) lookups
+    // will load by url and retrieve the data via the $http and $templateCache
+    $mdIconProvider
+      .icon('3Ddice:blue', '/img/3Dblue.svg', 1000)
+      .icon('3Ddice:orange', '/img/3Dorange.svg', 1000)
+      .icon('3Ddice:red', '/img/3Dred.svg', 1000)
+      .icon('3Ddice:dark', '/img/3Ddark.svg', 1000)
+      .icon('icon:shake', '/img/ic_vibration_48px.svg', 48)
+      .icon('icon:back', '/img/ic_arrow_back_48px.svg', 48)
+      .icon('dice:dsuccess', '/img/dice/dsuccess.svg', 1000)
+      .icon('dice:efail', '/img/dice/efail.svg', 1000)
+      .icon('dice:fail', '/img/dice/fail.svg', 1000)
+      .icon('dice:four', '/img/dice/four.svg', 1000)
+      .icon('dice:skill', '/img/dice/skill.svg', 1000)
+      .icon('dice:success', '/img/dice/success.svg', 1000)
+      .icon('dice:three', '/img/dice/three.svg', 1000)
+      .icon('dice:two', '/img/dice/two.svg', 1000);
+  })
+  .run(function($http, $templateCache) {
+    var urls = [
+       '/img/3Dblue.svg',
+      '/img/3Dorange.svg',
+      '/img/3Dred.svg',
+      '/img/3Ddark.svg',
+      
+      '/img/ic_vibration_48px.svg',
+      '/img/ic_arrow_back_48px.svg',
+
+      '/img/dice/success.svg',
+      '/img/dice/efail.svg',
+      '/img/dice/fail.svg',
+      '/img/dice/four.svg',
+      '/img/dice/skill.svg',
+      '/img/dice/success.svg',
+      '/img/dice/three.svg',
+      '/img/dice/two.svg'
+    ];
+    // Pre-fetch icons sources by URL and cache in the $templateCache...
+    // subsequent $http calls will look there first.
+    angular.forEach(urls, function(url) {
+      $http.get(url, {
+        cache: $templateCache
+      });
+    });
+  });

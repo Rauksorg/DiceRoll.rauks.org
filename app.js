@@ -7,9 +7,10 @@ var compression = require('compression'),
 
 app.use(compression());
 
+// No caching
 app.use(express.static(__dirname + '/client'));
 
-// To activate caching
+// With caching
 // app.use(express.static('client', { maxAge: oneYear }));
 
 // Catch all route

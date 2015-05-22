@@ -1,11 +1,11 @@
 <div ng-include="'/views/partials/backbutton.html'"></div>
 <div layout="column" layout-align="center center" ng-cloak my-randomshow class="fullscreen bluedice" onmousedown="return false" ng-controller="DiceRollCtrl" ng-mousedown="startroll();" ng-mouseup="stoproll();$broadcast('shakeIt::shaked')">
-    <md-icon md-svg-src="/img/ic_vibration_48px.svg" alt="Shake" class="shakeicon"></md-icon>
+    <md-icon md-svg-icon="icon:shake" alt="Shake" class="shakeicon"></md-icon>
     <div hide class="circle"></div>
-    <img hide src="/img/dice/efail.svg" alt="Epic fail">
-    <img hide src="/img/dice/skill.svg" alt="Skill">
-    <img hide src="/img/dice/success.svg" alt="Success">
-    <img hide src="/img/dice/four.svg" alt="Four">
-    <img hide src="/img/dice/three.svg" alt="Three">
-    <img hide src="/img/dice/two.svg" alt="Two">
+    <md-icon md-svg-icon="dice:efail" class="diceicon" alt="Epic fail"></md-icon>
+    <md-icon md-svg-icon="dice:skill" class="diceicon" alt="Skill"></md-icon>
+    <md-icon md-svg-icon="dice:success" class="diceicon" alt="Success"></md-icon>
+    <md-icon md-svg-icon="dice:four" class="diceicon" alt="Four"></md-icon>
+    <md-icon md-svg-icon="dice:three" class="diceicon" alt="Three"></md-icon>
+    <md-icon md-svg-icon="dice:two" class="diceicon" alt="Two"></md-icon>
 </div>
