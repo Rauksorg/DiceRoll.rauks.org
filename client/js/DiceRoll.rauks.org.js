@@ -2,56 +2,107 @@
 
 var DiceRoll = angular.module('DiceRoll', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAnimate'])
 
-DiceRoll.config(function($locationProvider) {
+DiceRoll.config(['$locationProvider', function($locationProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
-});
+}]);
 
 // Define routes
-DiceRoll.config(function($routeProvider) {
+DiceRoll.config(['$routeProvider', function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/views/choosedice.html'
     })
     .when('/blue', {
-      templateUrl: '/views/bluedice.html'
+      templateUrl: '/views/singledice.html',
+      controller: 'Bluedicectrl'
     })
     .when('/orange', {
-      templateUrl: '/views/orangedice.html'
+      templateUrl: '/views/singledice.html',
+      controller: 'Orangedicectrl'
     })
     .when('/red', {
-      templateUrl: '/views/reddice.html'
+      templateUrl: '/views/singledice.html',
+      controller: 'Reddicectrl'
     })
     .when('/darknumber', {
       templateUrl: '/views/darknumberdice.html'
     })
     .when('/dark', {
-      templateUrl: '/views/darkdice.html'
-    })
-    .when('/dark2', {
-      templateUrl: '/views/darkdice2.html'
+      templateUrl: '/views/singledice.html',
+      controller: 'Darkdicectrl'
     })
     .otherwise({
       redirectTo: '/'
     });
+}]);
+
+// Store all dice datas in a factory
+DiceRoll.factory("diceData", function() {
+  var dicefaces = {
+      'efail': {
+        'icon': 'dice:efail',
+        'alt': 'Epic fail'
+      },
+      'fail': {
+        'icon': 'dice:fail',
+        'alt': 'Fail'
+      },
+      'skill': {
+        'icon': 'dice:skill',
+        'alt': 'Skill'
+      },
+      'success': {
+        'icon': 'dice:success',
+        'alt': 'Success'
+      },
+      'four': {
+        'icon': 'dice:four',
+        'alt': 'Four'
+      },
+      'three': {
+        'icon': 'dice:three',
+        'alt': 'Three'
+      },
+      'two': {
+        'icon': 'dice:two',
+        'alt': 'Two'
+      },
+      'dsuccess': {
+        'icon': 'dice:dsuccess',
+        'alt': 'Double success'
+      }
+    },
+    dices = {
+      'bluedice': [dicefaces.efail, dicefaces.skill, dicefaces.success, dicefaces.four, dicefaces.three, dicefaces.two],
+      'orangedice': [dicefaces.efail, dicefaces.skill, dicefaces.success, dicefaces.four, dicefaces.three, dicefaces.fail],
+      'reddice': [dicefaces.efail, dicefaces.skill, dicefaces.success, dicefaces.four, dicefaces.fail, dicefaces.fail],
+      'darkdice': [dicefaces.success, dicefaces.success, dicefaces.dsuccess]
+    };
+  var factory = {};
+  factory.getdice = function(dicename) {
+    return dices[dicename];
+  };
+  factory.sharedice = {};
+  return factory;
 });
 
-// New shake
-var myShakeEvent = new Shake({
-  threshold: 5,
-  timeout: 10
-});
-
-// start listening to device motion
-myShakeEvent.start();
 
 // register a shake event on directive
-DiceRoll.directive('shakeIt', function($window) {
+DiceRoll.directive('shakeIt', ['$window', function($window) {
+  // New shake
+  var myShakeEvent = new Shake({
+    threshold: 5,
+    timeout: 10
+  });
+
+  // start listening to device motion
+  myShakeEvent.start();
   var timer;
   return {
     link: function(scope) {
       angular.element($window).on('shake', function(e) {
-        scope.$broadcast('shakeIt::shaking');
         // Create a shaked event
+        scope.$broadcast('shakeIt::shaking');
         clearInterval(timer);
         timer = setInterval(function() {
           scope.$broadcast('shakeIt::shaked');
@@ -60,53 +111,14 @@ DiceRoll.directive('shakeIt', function($window) {
       });
     }
   };
-});
+}]);
 
-DiceRoll.directive('myRandomshow', function() {
-  //Seed for Math.seedrandom
-  Math.seedrandom();
-  var enthropygen = Math.random();
-  // Show a random tag from child tags
-  function randomIntFromInterval(min, max) {
+DiceRoll.controller("DiceRollCtrl", ['$scope', '$interval', 'diceData', function($scope, $interval, diceData) {
 
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-  return {
-    link: function(scope, element) {
-      // Ensure everything is initialy hidden
-      element.children().attr('hide', 'true');
-      //Show Shake Icon
-      element.children().eq('0').removeAttr('hide');
-
-      scope.$on('shakeIt::shaking', function() {
-        enthropygen++;
+  // Share a global rollfunction
 
 
-
-        // Show only circle while shaking
-        element.children().attr('hide', 'true');
-        element.children().eq('1').removeAttr('hide');
-      });
-      scope.$on('shakeIt::shaked', function() {
-        // Show result
-        enthropygen++;
-        element.children().attr('hide', 'true');
-        Math.seedrandom(enthropygen, {
-          entropy: true
-        });
-        // For test :
-        // console.log(enthropygen);
-        
-        element.children().eq(randomIntFromInterval(2, element.children().length - 1)).removeAttr('hide');
-      });
-    }
-  };
-});
-
-
-DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
-
-// Desktop Mouse down fallback
+  // Desktop Mouse down fallback
   $scope.desktopmdown = function() {
     // prevent from execution on mobile (display bug)
     if (!isMobile.any) {
@@ -115,15 +127,13 @@ DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
   };
   // Desktop Mouse up fallback
   $scope.desktopmup = function() {
-     // prevent from execution on mobile (display bug)
+    // prevent from execution on mobile (display bug)
     if (!isMobile.any) {
       $scope.stoproll();
       $scope.$broadcast('shakeIt::shaked');
     }
   };
-
-
-  // store the interval promise in this variable
+  // store the interval promise
   var promise;
   // starts the interval
   $scope.startroll = function() {
@@ -136,61 +146,109 @@ DiceRoll.controller("DiceRollCtrl", function($scope, $interval) {
   $scope.stoproll = function() {
     $interval.cancel(promise);
   };
-  // stops the interval when the scope is destroyed
-  $scope.$on('$destroy', function() {
-    $scope.stoproll();
-
-  });
   //Rolling Function Desktop Fallback
   var DesktopRolling = function() {
     $scope.$broadcast('shakeIt::shaking');
   };
 
-});
+  var enthropygen = 0;
+  $scope.$on('shakeIt::shaking', function() {
+    $scope.dicefaceicon = '';
+    $scope.dicefacealt = '';
+    $scope.dicefaceclass = '';
+    enthropygen++;
+  });
+  $scope.$on('$destroy', function() {
+    $scope.stoproll();
+  });
+  $scope.restart = function() {
+    $scope.dicefaceicon = 'icon:shake';
+    $scope.dicefacealt = 'Shake';
+    $scope.dicefaceclass = 'shakeicon';
+    $scope.stoproll();
+  };
+  $scope.$on('shakeIt::shaked', function() {
+    Math.seedrandom(enthropygen, {
+      entropy: true
+    });
+    var rdmnumber = Math.floor(Math.random() * (diceData.sharedice.length - 1 - 0 + 1) + 0);
+    $scope.dicefaceclass = 'diceicon';
+    $scope.dicefaceicon = diceData.sharedice[rdmnumber].icon;
+    $scope.dicefacealt = diceData.sharedice[rdmnumber].alt;
+  });
+}]);
 
-DiceRoll.config(function($mdIconProvider) {
-    // Register icon IDs with sources. Future $mdIcon( <id> ) lookups
-    // will load by url and retrieve the data via the $http and $templateCache
-    $mdIconProvider
-      .icon('3Ddice:blue', '/img/3Dblue.svg', 1000)
-      .icon('3Ddice:orange', '/img/3Dorange.svg', 1000)
-      .icon('3Ddice:red', '/img/3Dred.svg', 1000)
-      .icon('3Ddice:dark', '/img/3Ddark.svg', 1000)
-      .icon('icon:shake', '/img/ic_vibration_48px.svg', 48)
-      .icon('icon:back', '/img/ic_arrow_back_48px.svg', 48)
-      .icon('dice:dsuccess', '/img/dice/dsuccess.svg', 1000)
-      .icon('dice:efail', '/img/dice/efail.svg', 1000)
-      .icon('dice:fail', '/img/dice/fail.svg', 1000)
-      .icon('dice:four', '/img/dice/four.svg', 1000)
-      .icon('dice:skill', '/img/dice/skill.svg', 1000)
-      .icon('dice:success', '/img/dice/success.svg', 1000)
-      .icon('dice:three', '/img/dice/three.svg', 1000)
-      .icon('dice:two', '/img/dice/two.svg', 1000);
-  })
-  .run(function($http, $templateCache) {
-    var urls = [
-      '/img/3Dblue.svg',
-      '/img/3Dorange.svg',
-      '/img/3Dred.svg',
-      '/img/3Ddark.svg',
+DiceRoll.controller('Bluedicectrl', ['$scope', 'diceData', '$rootScope', function($scope, diceData, $rootScope) {
+  var selectDice = 'bluedice';
+  $scope.dicecolor = selectDice;
+  diceData.sharedice = diceData.getdice(selectDice);
+  $scope.restart();
+}]);
 
-      '/img/ic_vibration_48px.svg',
-      '/img/ic_arrow_back_48px.svg',
+DiceRoll.controller('Orangedicectrl', ['$scope', 'diceData', '$rootScope', function($scope, diceData, $rootScope) {
+  var selectDice = 'orangedice';
+  $scope.dicecolor = selectDice;
+  diceData.sharedice = diceData.getdice(selectDice);
+  $scope.restart();
+}]);
 
-      '/img/dice/success.svg',
-      '/img/dice/efail.svg',
-      '/img/dice/fail.svg',
-      '/img/dice/four.svg',
-      '/img/dice/skill.svg',
-      '/img/dice/success.svg',
-      '/img/dice/three.svg',
-      '/img/dice/two.svg'
-    ];
-    // Pre-fetch icons sources by URL and cache in the $templateCache...
-    // subsequent $http calls will look there first.
-    angular.forEach(urls, function(url) {
-      $http.get(url, {
-        cache: $templateCache
-      });
+DiceRoll.controller('Reddicectrl', ['$scope', 'diceData', '$rootScope', function($scope, diceData, $rootScope) {
+  var selectDice = 'reddice';
+  $scope.dicecolor = selectDice;
+  diceData.sharedice = diceData.getdice(selectDice);
+  $scope.restart();
+}]);
+
+DiceRoll.controller('Darkdicectrl', ['$scope', 'diceData', '$rootScope', function($scope, diceData, $rootScope) {
+  var selectDice = 'darkdice';
+  $scope.dicecolor = selectDice;
+  diceData.sharedice = diceData.getdice(selectDice);
+  $scope.restart();
+}]);
+
+DiceRoll.config(['$mdIconProvider', function($mdIconProvider) {
+  // Register icon IDs with sources. Future $mdIcon( <id> ) lookups
+  // will load by url and retrieve the data via the $http and $templateCache
+  $mdIconProvider
+    .icon('3Ddice:blue', '/img/3Dblue.svg', 1000)
+    .icon('3Ddice:orange', '/img/3Dorange.svg', 1000)
+    .icon('3Ddice:red', '/img/3Dred.svg', 1000)
+    .icon('3Ddice:dark', '/img/3Ddark.svg', 1000)
+    .icon('icon:shake', '/img/ic_vibration_48px.svg', 48)
+    .icon('icon:back', '/img/ic_arrow_back_48px.svg', 48)
+    .icon('dice:dsuccess', '/img/dice/dsuccess.svg', 1000)
+    .icon('dice:efail', '/img/dice/efail.svg', 1000)
+    .icon('dice:fail', '/img/dice/fail.svg', 1000)
+    .icon('dice:four', '/img/dice/four.svg', 1000)
+    .icon('dice:skill', '/img/dice/skill.svg', 1000)
+    .icon('dice:success', '/img/dice/success.svg', 1000)
+    .icon('dice:three', '/img/dice/three.svg', 1000)
+    .icon('dice:two', '/img/dice/two.svg', 1000);
+}]);
+DiceRoll.run(['$http', '$templateCache', function($http, $templateCache) {
+  var urls = [
+    '/img/3Dblue.svg',
+    '/img/3Dorange.svg',
+    '/img/3Dred.svg',
+    '/img/3Ddark.svg',
+
+    '/img/ic_vibration_48px.svg',
+    '/img/ic_arrow_back_48px.svg',
+
+    '/img/dice/success.svg',
+    '/img/dice/efail.svg',
+    '/img/dice/fail.svg',
+    '/img/dice/four.svg',
+    '/img/dice/skill.svg',
+    '/img/dice/success.svg',
+    '/img/dice/three.svg',
+    '/img/dice/two.svg'
+  ];
+  // Pre-fetch icons sources by URL and cache in the $templateCache...
+  // subsequent $http calls will look there first.
+  angular.forEach(urls, function(url) {
+    $http.get(url, {
+      cache: $templateCache
     });
   });
+}]);

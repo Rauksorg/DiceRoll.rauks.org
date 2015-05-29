@@ -1,2 +1,3 @@
 #ignoring files for Git
 node_modules/
+_help

@@ -32,16 +32,6 @@ img {
 .darkdice {
     background: #545453;
 }
-.circle {
-    /*padding-top must be equal to width*/
-    
-    border-style: solid;
-    border-color: white white white white;
-    border-radius: 50%;
-    height: auto;
-    width: 10%;
-    padding-top: 10%;
-}
 .shakeicon {
     color: white!important;
     width: 100px;
