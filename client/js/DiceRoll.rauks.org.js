@@ -85,10 +85,6 @@ DiceRoll.factory("diceData", function() {
   factory.sharedice = {};
   return factory;
 });
-
-
-// register a shake event on directive
-DiceRoll.directive('shakeIt', ['$window', function($window) {
   // New shake
   var myShakeEvent = new Shake({
     threshold: 5,
@@ -97,6 +93,10 @@ DiceRoll.directive('shakeIt', ['$window', function($window) {
 
   // start listening to device motion
   myShakeEvent.start();
+
+// register a shake event on directive
+DiceRoll.directive('shakeIt', ['$window', function($window) {
+
   var timer;
   return {
     link: function(scope) {
@@ -114,10 +114,6 @@ DiceRoll.directive('shakeIt', ['$window', function($window) {
 }]);
 
 DiceRoll.controller("DiceRollCtrl", ['$scope', '$interval', 'diceData', function($scope, $interval, diceData) {
-
-  // Share a global rollfunction
-
-
   // Desktop Mouse down fallback
   $scope.desktopmdown = function() {
     // prevent from execution on mobile (display bug)
