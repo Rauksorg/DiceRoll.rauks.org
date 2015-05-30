@@ -167,7 +167,6 @@ DiceRoll.controller("DiceRollCtrl", ['$scope', '$interval', 'diceData', function
     $scope.stoproll();
   };
   $scope.$on('shakeIt::shaked', function() {
-    console.log('shakeIt::shaked');
     Math.seedrandom(enthropygen, {
       entropy: true
     });
@@ -175,7 +174,6 @@ DiceRoll.controller("DiceRollCtrl", ['$scope', '$interval', 'diceData', function
     $scope.dicefaceclass = 'diceicon';
     $scope.dicefaceicon = diceData.sharedice[rdmnumber].icon;
     $scope.dicefacealt = diceData.sharedice[rdmnumber].alt;
-    console.log($scope.dicefaceicon);
   });
 }]);
 
