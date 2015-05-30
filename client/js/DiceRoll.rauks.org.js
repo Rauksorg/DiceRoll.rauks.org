@@ -85,14 +85,15 @@ DiceRoll.factory("diceData", function() {
   factory.sharedice = {};
   return factory;
 });
-  // New shake
-  var myShakeEvent = new Shake({
-    threshold: 5,
-    timeout: 10
-  });
 
-  // start listening to device motion
-  myShakeEvent.start();
+// New shake
+var myShakeEvent = new Shake({
+  threshold: 5,
+  timeout: 10
+});
+
+// start listening to device motion
+myShakeEvent.start();
 
 // register a shake event on directive
 DiceRoll.directive('shakeIt', ['$window', function($window) {
@@ -103,6 +104,7 @@ DiceRoll.directive('shakeIt', ['$window', function($window) {
       angular.element($window).on('shake', function(e) {
         // Create a shaked event
         scope.$broadcast('shakeIt::shaking');
+        console.log('window shake');
         clearInterval(timer);
         timer = setInterval(function() {
           scope.$broadcast('shakeIt::shaked');
@@ -164,6 +166,7 @@ DiceRoll.controller("DiceRollCtrl", ['$scope', '$interval', 'diceData', function
     $scope.stoproll();
   };
   $scope.$on('shakeIt::shaked', function() {
+    console.log('shakeIt::shaked');
     Math.seedrandom(enthropygen, {
       entropy: true
     });
