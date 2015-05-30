@@ -103,12 +103,12 @@ DiceRoll.directive('shakeIt', ['$window', function($window) {
     link: function(scope) {
       angular.element($window).on('shake', function(e) {
         // Create a shaked event
-        scope.$emit('shakeIt::shaking');
-        scope.$apply();
+        scope.$apply(scope.$emit('shakeIt::shaking'));
+        
         clearInterval(timer);
         timer = setInterval(function() {
-          scope.$emit('shakeIt::shaked');
-          scope.$apply();
+           scope.$apply(scope.$emit('shakeIt::shaked'));
+         
           clearInterval(timer);
         }, 500);
       });
