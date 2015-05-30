@@ -104,11 +104,11 @@ DiceRoll.directive('shakeIt', ['$window', function($window) {
       angular.element($window).on('shake', function(e) {
         // Create a shaked event
         scope.$emit('shakeIt::shaking');
-        console.log('window shake');
+        scope.$apply();
         clearInterval(timer);
         timer = setInterval(function() {
           scope.$emit('shakeIt::shaked');
-          console.log('shakeIt::shaked');
+          scope.$apply();
           clearInterval(timer);
         }, 500);
       });
@@ -175,6 +175,7 @@ DiceRoll.controller("DiceRollCtrl", ['$scope', '$interval', 'diceData', function
     $scope.dicefaceclass = 'diceicon';
     $scope.dicefaceicon = diceData.sharedice[rdmnumber].icon;
     $scope.dicefacealt = diceData.sharedice[rdmnumber].alt;
+    console.log($scope.dicefaceicon);
   });
 }]);
 
